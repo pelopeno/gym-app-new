@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\Announcement;
 use Illuminate\Http\Request;
+use App\Models\Announcement;
 use App\Models\Review;
 
 class UserController extends Controller
