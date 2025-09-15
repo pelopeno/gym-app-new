@@ -5,7 +5,7 @@
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">✏️ Edit Post</h1>
 
-        <form method="POST" action="{{ route('admin.posts.update', $post['id']) }}" class="space-y-6">
+        <form method="POST" action="{{ url('/admin/posts/' . $post->id) }}" class="space-y-6">
             @csrf
             @method('PATCH')
             

@@ -69,6 +69,6 @@ class AdminController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('admin.posts.index')->with('success', "Post #{$id} updated successfully!");
+        return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
     }
 }

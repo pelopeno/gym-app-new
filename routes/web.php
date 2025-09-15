@@ -50,7 +50,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/posts', [AdminController::class, 'listPosts'])->name('admin.posts.index');
         Route::get('/posts/add', [AdminController::class, 'addPost'])->name('admin.posts.add');
         Route::post('/posts/store', [AdminController::class, 'storePost'])->name('admin.posts.store');
-        Route::get('/posts/{id}/edit', [AdminController::class, 'editPost'])->name('admin.posts.edit');
+        Route::get('/posts/edit/{id}', [AdminController::class, 'editPost'])->name('admin.posts.edit');
         Route::patch('/posts/{id}', [AdminController::class, 'updatePost'])->name('admin.posts.update');
 
         //for testing lang para mag reset ung session
