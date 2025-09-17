@@ -12,8 +12,7 @@ class UserController extends Controller
     //
     public function index()
     {
-        $announcements = Announcement::all();
-
+        $announcements = Announcement::latest()->get();
         return view('dashboard', compact('announcements'));
     }
 

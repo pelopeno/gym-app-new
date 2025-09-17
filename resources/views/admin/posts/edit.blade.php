@@ -5,6 +5,19 @@
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-8">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">✏️ Edit Post</h1>
 
+        @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <strong class="font-bold">Oops!</strong>
+            <span class="block sm:inline">Something went wrong:</span>
+            <ul class="mt-2 list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+
         <form method="POST" action="{{ url('/admin/posts/' . $post->id) }}" class="space-y-6">
             @csrf
             @method('PATCH')

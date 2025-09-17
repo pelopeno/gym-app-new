@@ -53,9 +53,6 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/posts/edit/{id}', [AdminController::class, 'editPost'])->name('admin.posts.edit');
         Route::patch('/posts/{id}', [AdminController::class, 'updatePost'])->name('admin.posts.update');
 
-        //for testing lang para mag reset ung session
-        Route::get('/posts/reset', function () {
-            session()->forget('posts');
-            return redirect()->route('admin.posts.index')->with('success', 'Posts reset!');
-        });
+        
+        //Route::delete('/posts/{id}', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
     });

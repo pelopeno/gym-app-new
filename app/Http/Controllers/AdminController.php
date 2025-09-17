@@ -37,8 +37,8 @@ class AdminController extends Controller
     public function storePost(Request $request)
     {
         $request->validate([
-            'title'   => 'required|string|max:255',
-            'content' => 'required|string',
+            'title'   => 'required|string|max:300|min:5',
+            'content' => 'required|string|max:255|min:10',
         ]);
 
         Announcement::create([
@@ -59,8 +59,8 @@ class AdminController extends Controller
     public function updatePost(Request $request, $id)
     {
         $request->validate([
-            'title'   => 'required|string|max:255',
-            'content' => 'required|string',
+            'title'   => 'required|string|max:300|min:5',
+            'content' => 'required|string|max:255|min:10',
         ]);
 
         $post = Announcement::findOrFail($id);
@@ -71,4 +71,13 @@ class AdminController extends Controller
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
     }
+
+    // delete function 
+    // public function deletePost($id)
+    // {
+    //     $post = Announcement::findOrFail($id);
+    //     $post->delete();
+
+    //     return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
+    // }
 }
