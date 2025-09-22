@@ -41,7 +41,7 @@
                             @method('DELETE')
                             <button type="submit"
                                 class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
-                                Delete
+                                Archive
                         </form>
                     </td>
                 </tr>
