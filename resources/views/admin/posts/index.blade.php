@@ -35,6 +35,14 @@
                             class="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition">
                             Edit
                         </a>
+                        <form action="{{route('admin.posts.delete',  $post->id)}}" method="POST"
+                            onsubmit="return confirm('Are you sure you want to delete this Announcement?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition">
+                                Delete
+                        </form>
                     </td>
                 </tr>
                 @empty

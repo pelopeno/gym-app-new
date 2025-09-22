@@ -52,7 +52,5 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('/posts/store', [AdminController::class, 'storePost'])->name('admin.posts.store');
         Route::get('/posts/edit/{id}', [AdminController::class, 'editPost'])->name('admin.posts.edit');
         Route::patch('/posts/{id}', [AdminController::class, 'updatePost'])->name('admin.posts.update');
-
-        
-        //Route::delete('/posts/{id}', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
+        Route::delete('/posts/{id}', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
     });

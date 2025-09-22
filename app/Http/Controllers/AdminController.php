@@ -72,12 +72,11 @@ class AdminController extends Controller
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
     }
 
-    // delete function 
-    // public function deletePost($id)
-    // {
-    //     $post = Announcement::findOrFail($id);
-    //     $post->delete();
+    public function deletePost($id)
+    {
+        $post = Announcement::findOrFail($id);
+        $post->delete();
 
-    //     return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
-    // }
+        return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
+    }
 }
