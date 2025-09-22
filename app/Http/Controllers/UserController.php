@@ -30,8 +30,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'   => 'required|string|max:255',
-            'content' => 'required|string',
+            'title'   => 'required|string|max:300|min:5',
+            'content' => 'required|string|max:255|min:10',
         ]);
 
         Review::create([

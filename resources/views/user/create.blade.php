@@ -6,10 +6,21 @@
     </x-slot>
     <div class="max-w-3xl mt-10 mx-auto bg-white p-8 rounded-2xl shadow-lg">
         <h1 class="text-3xl font-benguiat mb-6 text-gray-800">Submit Your Post</h1>
+        @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+            <strong class="font-bold">Oops!</strong>
+            <span class="block sm:inline">Something went wrong:</span>
+            <ul class="mt-2 list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
         <form method="POST" action="{{ route('user.store') }}">
             @csrf
-            
+
             <div class="mb-6">
                 <label class="block mb-2 text-lg font-semibold text-gray-700">Title</label>
                 <input type="text"
