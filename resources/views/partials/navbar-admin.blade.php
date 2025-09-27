@@ -32,7 +32,7 @@
         <span class="text-gray-400 text-sm">
             Hi, <strong class="text-white">{{ Auth::user()->name }}</strong>
         </span>
-        <form method="POST" action="{{ route('logout') }}" class="inline">
+        <form method="POST" action="{{ route('logout') }}" class="inline confirm-logout">
             @csrf
             <button type="submit" 
                 class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-semibold transition">
@@ -41,3 +41,28 @@
         </form>
     </div>
 </nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const saveForm = document.querySelector(".confirm-logout");
+
+        if (saveForm) {
+            saveForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: "Logout?",
+                    text: "Do you want to logout now?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#16a34a",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, logout!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        saveForm.submit();
+                    }
+                });
+            });
+        }
+    });
+</script>
