@@ -19,8 +19,7 @@
             </div>
         @endforeach
 
-        <!-- Pagination -->
-        <div class="mt-6">
+        <div class="mt-6 mb-6">
             {{ $reviews->links() }}
         </div>
     </div>
