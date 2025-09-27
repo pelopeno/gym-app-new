@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function listPosts()
     {
-        $reviews = Review::latest()->paginate(5);
+        $reviews = Review::where('status', 'approved')->latest()->paginate(5);
         return view('user.show', compact('reviews'));
     }
 
@@ -37,9 +37,10 @@ class UserController extends Controller
         Review::create([
             'title'   => $request->title,
             'content' => $request->content,
+            'status'  => 'pending',
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('user.show')->with('success', "Review '{$request->title}' added successfully!");
+        return redirect()->route('user.show')->with('success', "Your review has been submitted and is awaiting approval.");
     }
 }

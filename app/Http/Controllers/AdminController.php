@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Announcement;
+use App\Models\Review;
 
 class AdminController extends Controller
 {
@@ -78,5 +79,27 @@ class AdminController extends Controller
         $post->delete();
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
+    }
+
+    public function Reviews(){
+        $reviews = Review::where('status', 'pending')->paginate(5);
+        return view('admin.reviews.index', compact('reviews'));
+
+    }
+
+    public function approveReview($id){
+        $reviews = Review::findOrFail($id);
+        $reviews->status = 'approved';
+        $reviews->save();
+
+        return redirect()->route('admin.reviews.index')->with('success', 'Review approved successfully.');
+    }
+
+    public function rejectReview($id){
+        $reviews = Review::findOrFail($id);
+        $reviews->status = 'rejected';
+        $reviews->save();
+
+        return redirect()->route('admin.reviews.index')->with('success', 'Review rejected successfully.');
     }
 }

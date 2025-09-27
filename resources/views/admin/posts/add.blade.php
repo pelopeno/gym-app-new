@@ -6,7 +6,7 @@
         <h1 class="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-2">
             <span class="text-green-600">➕</span> Add New Post
         </h1>
-        
+
         @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
             <strong class="font-bold">Oops!</strong>
@@ -19,7 +19,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.posts.store') }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.posts.store') }}" class="space-y-6 confirm-save">
             @csrf
 
             <div>
@@ -47,10 +47,34 @@
                 </a>
                 <button type="submit"
                     class="px-5 py-2 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700 transition">
-                    Save Post
+                    Add Post
                 </button>
             </div>
         </form>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const saveForm = document.querySelector(".confirm-save");
+
+        if (saveForm) {
+            saveForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: "Add this post?",
+                    text: "Make sure everything looks good before posting.",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#16a34a",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, save it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        saveForm.submit();
+                    }
+                });
+            });
+        }
+    });
+</script>
 @endsection

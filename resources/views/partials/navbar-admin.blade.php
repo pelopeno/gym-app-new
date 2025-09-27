@@ -22,6 +22,10 @@
            class="text-gray-300 hover:text-yellow-400 font-medium transition">
             Add Post
         </a>
+        <a href="{{ route('admin.reviews.index') }}" 
+           class="text-gray-300 hover:text-yellow-400 font-medium transition">
+            User Reviews
+        </a>
     </div>
 
     <div class="flex items-center space-x-4">
