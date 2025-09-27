@@ -51,8 +51,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/posts/add', [AdminController::class, 'addPost'])->name('admin.posts.add');
         Route::post('/posts/store', [AdminController::class, 'storePost'])->name('admin.posts.store');
         Route::get('/posts/edit/{id}', [AdminController::class, 'editPost'])->name('admin.posts.edit');
-        Route::patch('/posts/{id}/update', [AdminController::class, 'updatePost'])->name('admin.posts.update');
-        Route::delete('/posts/{id}/delete', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
+        Route::patch('/posts/{id}/', [AdminController::class, 'updatePost'])->name('admin.posts.update');
+        Route::delete('/posts/{id}/', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
         Route::get('/reviews', [AdminController::class, 'Reviews'])->name('admin.reviews.index');
         Route::post('/reviews/{id}/approve', [AdminController::class, 'approveReview'])->name('admin.reviews.approve');
         Route::post('/reviews/{id}/rejected', [AdminController::class, 'rejectReview'])->name('admin.reviews.reject');

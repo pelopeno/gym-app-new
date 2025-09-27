@@ -18,7 +18,7 @@
         @endif
 
 
-        <form method="POST" action="{{ url('/admin/posts/' . $post->id) }}" class="space-y-6">
+        <form method="POST" action="{{ route('admin.posts.update', $post->id) }}" class="space-y-6 confirm-update">
             @csrf
             @method('PATCH')
             
@@ -46,4 +46,28 @@
         </form>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const saveForm = document.querySelector(".confirm-update");
+
+        if (saveForm) {
+            saveForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: "Update this post?",
+                    text: "Make sure everything looks good before update.",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#16a34a",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, update it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        saveForm.submit();
+                    }
+                });
+            });
+        }
+    });
+</script>
 @endsection
