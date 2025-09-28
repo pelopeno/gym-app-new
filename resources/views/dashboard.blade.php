@@ -15,25 +15,27 @@
 
                     <div class="space-y-4">
                         @forelse($announcements as $a)
-                            <div class="flex items-start p-4 bg-white rounded-lg shadow hover:shadow-md transition">
-                                {{-- Circle with first letter --}}
-                                <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold">
-                                    {{ strtoupper(substr($a->title, 0, 1)) }}
-                                </div>
-
-                                <div class="ml-4">
-                                    <p class="font-semibold text-gray-800">{{ $a->title }}</p>
-                                    <p class="text-sm text-gray-600 mb-2">{!! $a->content !!}</p>
-                                    <span class="text-xs text-gray-500 italic">
-                                        Posted on {{ $a->created_at->format('M d, Y') }}
-                                    </span>
-                                </div>
+                        <div class="flex items-start p-4 bg-white rounded-lg shadow hover:shadow-md transition">
+                            {{-- Circle with first letter --}}
+                            <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold">
+                                {{ strtoupper(substr($a->title, 0, 1)) }}
                             </div>
+
+                            <div class="ml-4">
+                                <p class="font-semibold text-gray-800">{{ $a->title }}</p>
+                                <p class="text-sm text-gray-600 mb-2">{!! $a->content !!}</p>
+                                <span class="text-xs text-gray-500 italic">
+                                    Posted on {{ $a->created_at->format('M d, Y') }}
+                                </span>
+                            </div>
+                        </div>
                         @empty
-                            <p class="text-gray-500 text-sm">No announcements available.</p>
+                        <p class="text-gray-500 text-sm">No announcements available.</p>
                         @endforelse
                     </div>
-
+                    <div class="mt-6">
+                        {{ $announcements->links() }}
+                    </div>
                 </div>
             </div>
         </div>

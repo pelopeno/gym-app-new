@@ -12,7 +12,7 @@ class UserController extends Controller
     //
     public function index()
     {
-        $announcements = Announcement::latest()->get();
+        $announcements = Announcement::with('user')->latest()->paginate(5);
         return view('dashboard', compact('announcements'));
     }
 

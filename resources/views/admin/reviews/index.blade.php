@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="p-8 bg-gray-100 min-h-screen">
-    <h1 class="text-2xl font-bold mb-6">📝 User Reviews Moderation</h1>
+    <h1 class="text-2xl font-bold mb-6">Pending User Reviews</h1>
 
     @if(session('success'))
     <div class="mb-4 px-4 py-2 bg-green-100 text-green-800 rounded-lg shadow-sm">

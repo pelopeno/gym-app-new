@@ -26,8 +26,16 @@ class AdminController extends Controller
 
     public function listPosts()
     {
-        $posts = Announcement::with('user')->latest()->get();
-        return view('admin.posts.index', compact('posts'));
+        $posts = Announcement::with('user')
+            ->latest()
+            ->paginate(5, ['*'], 'posts_page');
+
+        $trashed = Announcement::onlyTrashed()
+            ->with('user')
+            ->orderByDesc('deleted_at')
+            ->paginate(5, ['*'], 'trashed_page');
+
+        return view('admin.posts.index', compact('posts', 'trashed'));
     }
 
     public function addPost()
@@ -81,13 +89,14 @@ class AdminController extends Controller
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
     }
 
-    public function Reviews(){
+    public function Reviews()
+    {
         $reviews = Review::where('status', 'pending')->paginate(5);
         return view('admin.reviews.index', compact('reviews'));
-
     }
 
-    public function approveReview($id){
+    public function approveReview($id)
+    {
         $reviews = Review::findOrFail($id);
         $reviews->status = 'approved';
         $reviews->save();
@@ -95,11 +104,32 @@ class AdminController extends Controller
         return redirect()->route('admin.reviews.index')->with('success', 'Review approved successfully.');
     }
 
-    public function rejectReview($id){
+    public function rejectReview($id)
+    {
         $reviews = Review::findOrFail($id);
         $reviews->status = 'rejected';
         $reviews->save();
 
         return redirect()->route('admin.reviews.index')->with('success', 'Review rejected successfully.');
+    }
+
+    public function restorePost($id)
+    {
+        $post = Announcement::withTrashed()->findOrFail($id);
+        if ($post->trashed()) {
+            $post->restore();
+            return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} restored successfully!");
+        }
+        return redirect()->route('admin.posts.index')->with('info', "Announcement #{$id} is not deleted.");
+    }
+
+    public function forceDeletePost($id)
+    {
+        $post = Announcement::withTrashed()->findOrFail($id);
+        if ($post->trashed()) {
+            $post->forceDelete();
+            return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} permanently deleted!");
+        }
+        return redirect()->route('admin.posts.index')->with('info', "Announcement #{$id} is not deleted.");
     }
 }
