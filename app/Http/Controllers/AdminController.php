@@ -51,7 +51,7 @@ class AdminController extends Controller
         ]);
 
         Announcement::create([
-            'title'   => $request->title,
+            'title'   => $request->title,  
             'content' => $request->content,
             'user_id' => Auth::id(),
         ]);
@@ -67,12 +67,13 @@ class AdminController extends Controller
 
     public function updatePost(Request $request, $id)
     {
+        $post = Announcement::findOrFail($id);
+
         $request->validate([
             'title'   => 'required|string|max:300|min:5',
             'content' => 'required|string|max:255|min:10',
         ]);
 
-        $post = Announcement::findOrFail($id);
         $post->update([
             'title'   => $request->title,
             'content' => $request->content,
@@ -83,8 +84,7 @@ class AdminController extends Controller
 
     public function deletePost($id)
     {
-        $post = Announcement::findOrFail($id);
-        $post->delete();
+        $post = Announcement::findOrFail($id)->delete(); 
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
     }
@@ -120,7 +120,7 @@ class AdminController extends Controller
             $post->restore();
             return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} restored successfully!");
         }
-        return redirect()->route('admin.posts.index')->with('info', "Announcement #{$id} is not deleted.");
+        return redirect()->route('admin.posts.index')->with('info', "Announcement #{$id} is not archived.");
     }
 
     public function forceDeletePost($id)

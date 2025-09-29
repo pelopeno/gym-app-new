@@ -58,5 +58,5 @@ Route::middleware(['auth', 'role:admin'])
         Route::post('/reviews/{id}/rejected', [AdminController::class, 'rejectReview'])->name('admin.reviews.reject');
 
         Route::post('/announcements/{id}/restore', [AdminController::class, 'restorePost'])->name('admin.announce.restore');
-        Route::delete('/announcements/{id}/force-delete', [AdminController::class, 'forceDeletePost'])->name('admin.announce.force-delete');
+        Route::destroy('/announcements/{id}/force-delete', [AdminController::class, 'forceDeletePost'])->name('admin.announce.force-delete');
     });
