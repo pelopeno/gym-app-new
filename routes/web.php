@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -36,27 +38,26 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
 
-    Route::get('/users', [UserController::class, 'listPosts'])->name('user.show');
+    Route::get('/users/reviews', [ReviewController::class, 'listPosts'])->name('user.show');
 
-    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+    Route::get('/users/create', [ReviewController::class, 'create'])->name('user.create');
 
-    Route::post('/users/store', [UserController::class, 'store'])->name('user.store');
+    Route::post('/users/store', [ReviewController::class, 'store'])->name('user.store');
 });
 
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-        Route::get('/posts', [AdminController::class, 'listPosts'])->name('admin.posts.index');
-        Route::get('/posts/add', [AdminController::class, 'addPost'])->name('admin.posts.add');
-        Route::post('/posts/store', [AdminController::class, 'storePost'])->name('admin.posts.store');
-        Route::get('/posts/edit/{id}', [AdminController::class, 'editPost'])->name('admin.posts.edit');
-        Route::patch('/posts/{id}/', [AdminController::class, 'updatePost'])->name('admin.posts.update');
-        Route::delete('/posts/{id}/', [AdminController::class, 'deletePost'])->name('admin.posts.delete');
-        Route::get('/reviews', [AdminController::class, 'Reviews'])->name('admin.reviews.index');
-        Route::post('/reviews/{id}/approve', [AdminController::class, 'approveReview'])->name('admin.reviews.approve');
-        Route::post('/reviews/{id}/rejected', [AdminController::class, 'rejectReview'])->name('admin.reviews.reject');
-
-        Route::post('/announcements/{id}/restore', [AdminController::class, 'restorePost'])->name('admin.announce.restore');
-        Route::destroy('/announcements/{id}/force-delete', [AdminController::class, 'forceDeletePost'])->name('admin.announce.force-delete');
+        Route::get('/posts', [AnnouncementController::class, 'listPosts'])->name('admin.posts.index');
+        Route::get('/posts/add', [AnnouncementController::class, 'addPost'])->name('admin.posts.add');
+        Route::post('/posts/store', [AnnouncementController::class, 'storePost'])->name('admin.posts.store');
+        Route::get('/posts/edit/{id}', [AnnouncementController::class, 'editPost'])->name('admin.posts.edit');
+        Route::patch('/posts/update/{id}', [AnnouncementController::class, 'updatePost'])->name('admin.posts.update'); 
+        Route::delete('/posts/destroy/{id}', [AnnouncementController::class, 'deletePost'])->name('admin.posts.delete');
+        Route::get('/pening-reviews', [ReviewController::class, 'Reviews'])->name('admin.reviews.index');
+        Route::post('/reviews/approve/{id}', [ReviewController::class, 'approveReview'])->name('admin.reviews.approve'); 
+        Route::post('/reviews/rejected/{id}', [ReviewController::class, 'rejectReview'])->name('admin.reviews.reject'); 
+        Route::post('/announcements/restore/{id}', [AnnouncementController::class, 'restorePost'])->name('admin.announce.restore');
+        Route::delete('/announcements/force-delete/{id}', [AnnouncementController::class, 'forceDeletePost'])->name('admin.announce.force-delete');
     });
