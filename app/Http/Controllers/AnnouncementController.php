@@ -62,11 +62,13 @@ class AnnouncementController extends Controller
         $request->validate([
             'title'   => 'required|string|max:40|min:5',
             'content' => 'required|string|max:120|min:10',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         $post->update([
             'title'   => $request->title,
             'content' => $request->content,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
@@ -81,21 +83,17 @@ class AnnouncementController extends Controller
 
     public function restorePost($id)
     {
-        $post = Announcement::withTrashed()->findOrFail($id);
-        if ($post->trashed()) {
-            $post->restore();
-            return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} restored successfully!");
-        }
-        return redirect()->route('admin.posts.index')->with('info', "Announcement #{$id} is not archived.");
+        $post = Announcement::onlyTrashed()->findOrFail($id);
+        $post->restore();
+        return redirect()->route('admin.posts.index')
+            ->with('success', "Announcement #{$id} restored successfully!");
     }
 
     public function forceDeletePost($id)
     {
-        $post = Announcement::withTrashed()->findOrFail($id);
-        if ($post->trashed()) {
-            $post->forceDelete();
-            return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} permanently deleted!");
-        }
-        return redirect()->route('admin.posts.index')->with('info', "Announcement #{$id} is not deleted.");
+        $post = Announcement::onlyTrashed()->findOrFail($id);
+        $post->forceDelete();
+        return redirect()->route('admin.posts.index')
+            ->with('success', "Announcement #{$id} permanently deleted!");
     }
 }
