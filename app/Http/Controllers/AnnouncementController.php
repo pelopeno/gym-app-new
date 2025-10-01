@@ -10,7 +10,7 @@ use App\Models\Category;
 class AnnouncementController extends Controller
 {
     //
-     public function listPosts()
+    public function listPosts()
     {
         $posts = Announcement::with('user')
             ->latest()
@@ -39,7 +39,7 @@ class AnnouncementController extends Controller
         ]);
 
         Announcement::create([
-            'title'   => $request->title,  
+            'title'   => $request->title,
             'content' => $request->content,
             'category_id' => $request->category_id,
             'user_id' => Auth::id(),
@@ -50,8 +50,9 @@ class AnnouncementController extends Controller
 
     public function editPost($id)
     {
+        $categories = Category::all();
         $post = Announcement::findOrFail($id);
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     public function updatePost(Request $request, $id)
@@ -73,7 +74,7 @@ class AnnouncementController extends Controller
 
     public function deletePost($id)
     {
-        $post = Announcement::findOrFail($id)->delete(); 
+        $post = Announcement::findOrFail($id)->delete();
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
     }
