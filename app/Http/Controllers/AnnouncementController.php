@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Announcement;
+use App\Models\Category;
 
 class AnnouncementController extends Controller
 {
@@ -25,7 +26,8 @@ class AnnouncementController extends Controller
 
     public function addPost()
     {
-        return view('admin.posts.add');
+        $categories = Category::all();
+        return view('admin.posts.add', compact('categories'));
     }
 
     public function storePost(Request $request)
@@ -33,11 +35,13 @@ class AnnouncementController extends Controller
         $request->validate([
             'title'   => 'required|string|max:40|min:5',
             'content' => 'required|string|max:120|min:10',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
         Announcement::create([
             'title'   => $request->title,  
             'content' => $request->content,
+            'category_id' => $request->category_id,
             'user_id' => Auth::id(),
         ]);
 

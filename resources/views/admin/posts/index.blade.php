@@ -19,6 +19,7 @@
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Title</th>
                     <th class="p-3 text-left">Content</th>
+                    <th class="p-3 text-left">Category</th>
                     <th class="p-3 text-left">Author</th>
                     <th class="p-3 text-left">Date</th>
                     <th class="p-3 text-left">Actions</th>
@@ -30,6 +31,7 @@
                     <td class="p-3">{{ $post->id }}</td>
                     <td class="p-3">{{ $post->title }}</td>
                     <td class="p-3">{{ Str::limit($post->content, 50) }}</td>
+                    <td class="p-3">{{ $post->category->name ?? 'Uncategorized' }}</td>
                     <td class="p-3">{{ $post->user->name ?? 'Unknown' }}</td>
                     <td class="p-3">{{ $post->created_at->format('Y-m-d') }}</td>
                     <td class="p-3 flex gap-2">
@@ -71,6 +73,7 @@
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Title</th>
                     <th class="p-3 text-left">Content</th>
+                    <th class="p-3 text-left">Category</th>
                     <th class="p-3 text-left">Author</th>
                     <th class="p-3 text-left">Deleted At</th>
                     <th class="p-3 text-left">Actions</th>
@@ -82,6 +85,7 @@
                     <td class="p-3">{{ $post->id }}</td>
                     <td class="p-3">{{ $post->title }}</td>
                     <td class="p-3">{{ Str::limit($post->content, 50) }}</td>
+                    <td class="p-3">{{ $post->category->name ?? 'Uncategorized' }}</td>
                     <td class="p-3">{{ $post->user->name ?? 'Unknown' }}</td>
                     <td class="p-3">{{ $post->deleted_at->format('Y-m-d') }}</td>
                     <td class="p-3 flex gap-2">

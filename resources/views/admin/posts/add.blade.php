@@ -40,6 +40,17 @@
                     class="w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500"></textarea>
             </div>
 
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <select name="category_id" required
+                    class="w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    <option value="">-- Select Category --</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="flex items-center justify-end gap-4">
                 <a href="{{ route('admin.posts.index') }}"
                     class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
