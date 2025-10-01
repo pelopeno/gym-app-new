@@ -55,7 +55,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/posts/edit/{id}', [AnnouncementController::class, 'editPost'])->name('admin.posts.edit');
         Route::patch('/posts/update/{id}', [AnnouncementController::class, 'updatePost'])->name('admin.posts.update'); 
         Route::delete('/posts/destroy/{id}', [AnnouncementController::class, 'deletePost'])->name('admin.posts.delete');
-        Route::get('/pening-reviews', [ReviewController::class, 'Reviews'])->name('admin.reviews.index');
+        Route::get('/pending-reviews', [ReviewController::class, 'Reviews'])->name('admin.reviews.index');
         Route::post('/reviews/approve/{id}', [ReviewController::class, 'approveReview'])->name('admin.reviews.approve'); 
         Route::post('/reviews/rejected/{id}', [ReviewController::class, 'rejectReview'])->name('admin.reviews.reject'); 
         Route::post('/announcements/restore/{id}', [AnnouncementController::class, 'restorePost'])->name('admin.announce.restore');

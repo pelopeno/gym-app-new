@@ -31,8 +31,8 @@ class AnnouncementController extends Controller
     public function storePost(Request $request)
     {
         $request->validate([
-            'title'   => 'required|string|max:300|min:5',
-            'content' => 'required|string|max:255|min:10',
+            'title'   => 'required|string|max:40|min:5',
+            'content' => 'required|string|max:120|min:10',
         ]);
 
         Announcement::create([
@@ -55,8 +55,8 @@ class AnnouncementController extends Controller
         $post = Announcement::findOrFail($id);
 
         $request->validate([
-            'title'   => 'required|string|max:300|min:5',
-            'content' => 'required|string|max:255|min:10',
+            'title'   => 'required|string|max:40|min:5',
+            'content' => 'required|string|max:120|min:10',
         ]);
 
         $post->update([
