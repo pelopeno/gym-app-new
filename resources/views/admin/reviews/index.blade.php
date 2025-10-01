@@ -30,7 +30,7 @@
                     <td class="p-3">{{ $review->id }}</td>
                     <td class="p-3">{{ $review->id }}</td>
                     <td class="p-3">{{ $review->user->name ?? 'Unknown' }}</td>
-                    <td class="p-3">{{ Str::limit($review->title, 80) }}</td>
+                    <td class="p-3">{{ Str::limit($review->title, 40) }}</td>
                     <td class="p-3">{{ Str::limit($review->content, 80) }}</td>
                     <td class="p-3">
                         <span class="px-2 py-1 rounded text-xs
