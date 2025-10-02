@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class ReviewController extends Controller
 {
     //
-    public function listPosts()
+    public function index()
     {
         $reviews = Review::where('status', 'approved')->latest()->paginate(5);
         return view('user.show', compact('reviews'));

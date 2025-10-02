@@ -38,7 +38,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('dashboard');
 
-    Route::get('/users/reviews', [ReviewController::class, 'listPosts'])->name('user.show');
+    Route::get('/users/reviews', [ReviewController::class, 'index'])->name('user.show');
 
     Route::get('/users/create', [ReviewController::class, 'create'])->name('user.create');
 
@@ -49,7 +49,8 @@ Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-        Route::get('/posts', [AnnouncementController::class, 'listPosts'])->name('admin.posts.index');
+        
+        Route::get('/posts', [AnnouncementController::class, 'index'])->name('admin.posts.index');
         Route::get('/posts/add', [AnnouncementController::class, 'addPost'])->name('admin.posts.add');
         Route::post('/posts/store', [AnnouncementController::class, 'storePost'])->name('admin.posts.store');
         Route::get('/posts/edit/{id}', [AnnouncementController::class, 'editPost'])->name('admin.posts.edit');

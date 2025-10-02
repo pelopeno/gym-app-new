@@ -10,7 +10,7 @@ use App\Models\Category;
 class AnnouncementController extends Controller
 {
     //
-    public function listPosts()
+    public function index()
     {
         $posts = Announcement::with('user')
             ->latest()
