@@ -49,7 +49,6 @@ Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-        
         Route::get('/posts', [AnnouncementController::class, 'index'])->name('admin.posts.index');
         Route::get('/posts/add', [AnnouncementController::class, 'addPost'])->name('admin.posts.add');
         Route::post('/posts/store', [AnnouncementController::class, 'storePost'])->name('admin.posts.store');
