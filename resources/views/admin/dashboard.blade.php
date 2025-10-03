@@ -23,15 +23,27 @@
                 <tr class="bg-gray-200 text-gray-600 text-sm">
                     <th class="p-3">User</th>
                     <th class="p-3">Action</th>
+                    <th class="p-3">Module</th>
+                    <th class="p-3">Details</th>
                     <th class="p-3">Date</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($recentActivities as $activity)
+                @foreach($logs as $activity)
                     <tr class="border-b {{ $loop->even ? 'bg-gray-50' : '' }}">
-                        <td class="p-3">{{ $activity['user'] }}</td>
-                        <td class="p-3">{{ $activity['action'] }}</td>
-                        <td class="p-3">{{ $activity['date'] }}</td>
+                        <td class="p-3">{{ $activity->user->name ?? 'N/A' }}</td>
+                        <td class="p-3">{{ $activity->action }}</td>
+                        <td class="p-3">{{ $activity->module }}</td>
+                        <td class="p-3">
+                            @if(is_array($activity->details))
+                                @foreach($activity->details as $key => $value)
+                                    <strong>{{ ucfirst($key) }}:</strong> {{ $value }}<br>
+                                @endforeach
+                            @else
+                                {{ $activity->details }}
+                            @endif
+                        </td>
+                        <td class="p-3">{{ $activity->created_at->format('Y-m-d H:i') }}</td>
                     </tr>
                 @endforeach
             </tbody>

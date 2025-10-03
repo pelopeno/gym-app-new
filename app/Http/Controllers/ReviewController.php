@@ -38,7 +38,7 @@ class ReviewController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        $this->logActivity('Submitted', 'Review', 'Title: ' . $request->title);
+        $this->logActivity('Submitted', 'Review',  ['title' => $request->title]);
 
         return redirect()->route('user.show')->with('success', "Your review has been submitted and is awaiting approval.");
     }
@@ -55,7 +55,7 @@ class ReviewController extends Controller
         $reviews->status = 'approved';
         $reviews->save();
 
-        $this->logActivity('Approved', 'Review', 'Review ID: {$reviews->id}');
+        $this->logActivity('Approved', 'Review', ['id' => $id]);
         return redirect()->route('admin.reviews.index')->with('success', 'Review approved successfully.');
     }
 
@@ -65,7 +65,7 @@ class ReviewController extends Controller
         $reviews->status = 'rejected';
         $reviews->save();
 
-        $this->logActivity('Rejected', 'Review', 'Review ID: {$reviews->id}');
+        $this->logActivity('Rejected', 'Review', ['id' => $id]);
         return redirect()->route('admin.reviews.index')->with('success', 'Review rejected successfully.');
     }
 }

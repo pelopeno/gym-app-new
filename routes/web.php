@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ActivityLogController;
 
 Route::get('/welcome', function () {
     return view('welcome');

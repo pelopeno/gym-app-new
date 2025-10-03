@@ -13,6 +13,9 @@ class ActivityLog extends Model
         'module',
         'details',
     ];
+    protected $casts = [
+        'details' => 'array',
+    ];
 
     public function user()
     {
