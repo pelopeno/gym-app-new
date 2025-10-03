@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Announcement;
 use App\Models\Category;
+use App\LogsActivity;
 
 class AnnouncementController extends Controller
 {
     //
+    use LogsActivity;
+
     public function index()
     {
         $posts = Announcement::with('user')
@@ -44,7 +47,7 @@ class AnnouncementController extends Controller
             'category_id' => $request->category_id,
             'user_id' => Auth::id(),
         ]);
-
+        $this->logActivity('Created', 'Announcement', 'Title: ' . $request->title);
         return redirect()->route('admin.posts.index')->with('success', "Post '{$request->title}' added successfully!");
     }
 
@@ -70,6 +73,7 @@ class AnnouncementController extends Controller
             'content' => $request->content,
             'category_id' => $request->category_id,
         ]);
+        $this->logActivity('Updated', 'Announcement', 'ID: ' . $id . ', New Title: ' . $request->title);
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
     }
@@ -77,6 +81,7 @@ class AnnouncementController extends Controller
     public function deletePost($id)
     {
         $post = Announcement::findOrFail($id)->delete();
+        $this->logActivity('Deleted', 'Announcement', 'ID: {$post->id}');
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} deleted successfully!");
     }
@@ -85,6 +90,8 @@ class AnnouncementController extends Controller
     {
         $post = Announcement::onlyTrashed()->findOrFail($id);
         $post->restore();
+
+        $this->logActivity('Restored', 'Announcement', 'ID: {$post->id}');
         return redirect()->route('admin.posts.index')
             ->with('success', "Announcement #{$id} restored successfully!");
     }
@@ -93,6 +100,8 @@ class AnnouncementController extends Controller
     {
         $post = Announcement::onlyTrashed()->findOrFail($id);
         $post->forceDelete();
+
+        $this->logActivity('Permanently Deleted', 'Announcement', 'ID: {$post->id}');
         return redirect()->route('admin.posts.index')
             ->with('success', "Announcement #{$id} permanently deleted!");
     }

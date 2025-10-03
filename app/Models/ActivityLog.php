@@ -13,4 +13,9 @@ class ActivityLog extends Model
         'module',
         'details',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
