@@ -19,6 +19,7 @@
                     <th class="p-3 text-left">User</th>
                     <th class="p-3 text-left">Title</th>
                     <th class="p-3 text-left">Content</th>
+                    <th class="p-3 text-left">Image</th>
                     <th class="p-3 text-left">Status</th>
                     <th class="p-3 text-left">Date</th>
                     <th class="p-3 text-left">Actions</th>
@@ -32,6 +33,13 @@
                     <td class="p-3">{{ $review->user->name ?? 'Unknown' }}</td>
                     <td class="p-3">{{ Str::limit($review->title, 40) }}</td>
                     <td class="p-3">{{ Str::limit($review->content, 80) }}</td>
+                    <td class="p-3">
+                        @if($review->image_path)
+                        <img src="{{ asset($review->image_path) }}" alt="Review Image" class="w-16 h-16 object-cover rounded">
+                        @else
+                        <span class="text-gray-500 italic">No Image</span>
+                        @endif
+                    </td>
                     <td class="p-3">
                         <span class="px-2 py-1 rounded text-xs
                             @if($review->status == 'approved') bg-green-100 text-green-700 

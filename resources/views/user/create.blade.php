@@ -1,11 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Share Your thoughts') }}
+            {{ __('Share Your Thoughts') }}
         </h2>
     </x-slot>
+
     <div class="max-w-3xl mt-10 mx-auto bg-white p-8 rounded-2xl shadow-lg">
         <h1 class="text-3xl font-benguiat mb-6 text-gray-800">Submit Your Review</h1>
+
         @if ($errors->any())
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
             <strong class="font-bold">Oops!</strong>
@@ -18,9 +20,10 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('user.store') }}" class="confirm-add">
+        <form method="POST" action="{{ route('user.store') }}" class="confirm-add" enctype="multipart/form-data">
             @csrf
 
+            {{-- Title --}}
             <div class="mb-6">
                 <label class="block mb-2 text-lg font-semibold text-gray-700">Title</label>
                 <input type="text"
@@ -29,12 +32,31 @@
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none">
             </div>
 
+            {{-- Content --}}
             <div class="mb-6">
                 <label class="block mb-2 text-lg font-semibold text-gray-700">Content</label>
                 <textarea rows="5"
                     name="content"
                     placeholder="Write your thoughts here..."
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none"></textarea>
+            </div>
+
+            {{-- Image Upload --}}
+            <div class="mb-6">
+                <label class="block mb-2 text-lg font-semibold text-gray-700">Image (Optional)</label>
+                <input type="file"
+                    id="imageInput"
+                    name="image"
+                    accept="image/*"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none">
+                
+                {{-- Image Preview --}}
+                <div class="mt-4">
+                    <img id="previewImage"
+                        src="#"
+                        alt="Preview"
+                        class="hidden w-48 h-48 object-cover rounded-lg border border-gray-300 shadow-sm">
+                </div>
             </div>
 
             <div class="text-right">
@@ -45,10 +67,29 @@
             </div>
         </form>
     </div>
+
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         const saveForm = document.querySelector(".confirm-add");
+        const imageInput = document.getElementById("imageInput");
+        const previewImage = document.getElementById("previewImage");
 
+        // ✅ Live preview when image is selected
+        imageInput.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewImage.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.classList.add("hidden");
+            }
+        });
+
+        // ✅ Confirmation dialog
         if (saveForm) {
             saveForm.addEventListener("submit", function(e) {
                 e.preventDefault();
@@ -68,5 +109,5 @@
             });
         }
     });
-</script>
+    </script>
 </x-app-layout>

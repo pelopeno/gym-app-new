@@ -29,13 +29,21 @@ class ReviewController extends Controller
         $request->validate([
             'title'   => 'required|string|max:300|min:5',
             'content' => 'required|string|max:255|min:10',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/reviews'), $filename);
+            $imagePath = 'images/reviews/' . $filename;
+        }
         Review::create([
             'title'   => $request->title,
             'content' => $request->content,
             'status'  => 'pending',
             'user_id' => Auth::id(),
+            'image_path' => $imagePath ?? null,
         ]);
 
         $this->logActivity('Submitted', 'Review',  ['title' => $request->title]);
