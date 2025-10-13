@@ -30,24 +30,26 @@
             </thead>
             <tbody>
                 @foreach($logs as $activity)
-                    <tr class="border-b {{ $loop->even ? 'bg-gray-50' : '' }}">
-                        <td class="p-3">{{ $activity->user->name ?? 'N/A' }}</td>
-                        <td class="p-3">{{ $activity->action }}</td>
-                        <td class="p-3">{{ $activity->module }}</td>
-                        <td class="p-3">
-                            @if(is_array($activity->details))
-                                @foreach($activity->details as $key => $value)
-                                    <strong>{{ ucfirst($key) }}:</strong> {{ $value }}<br>
-                                @endforeach
-                            @else
-                                {{ $activity->details }}
-                            @endif
-                        </td>
-                        <td class="p-3">{{ $activity->created_at->format('Y-m-d H:i') }}</td>
-                    </tr>
+                <tr class="border-b {{ $loop->even ? 'bg-gray-50' : '' }}">
+                    <td class="p-3">{{ $activity->user->name ?? 'N/A' }}</td>
+                    <td class="p-3">{{ $activity->action }}</td>
+                    <td class="p-3">{{ $activity->module }}</td>
+                    <td class="p-3">
+                        @if(is_array($activity->details))
+                        @foreach($activity->details as $key => $value)
+                        <strong>{{ ucfirst($key) }}:</strong> {{ $value }}<br>
+                        @endforeach
+                        @else
+                        {{ $activity->details }}
+                        @endif
+                    </td>
+                    <td class="p-3">{{ $activity->created_at->format('Y-m-d H:i') }}</td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-</div>
-@endsection
+    <div class="mt-6">
+        {{ $logs->links() }}
+    </div>
+    @endsection
