@@ -23,7 +23,6 @@
         <form method="POST" action="{{ route('user.store') }}" class="confirm-add" enctype="multipart/form-data">
             @csrf
 
-            {{-- Title --}}
             <div class="mb-6">
                 <label class="block mb-2 text-lg font-semibold text-gray-700">Title</label>
                 <input type="text"
@@ -32,7 +31,6 @@
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none">
             </div>
 
-            {{-- Content --}}
             <div class="mb-6">
                 <label class="block mb-2 text-lg font-semibold text-gray-700">Content</label>
                 <textarea rows="5"
@@ -41,7 +39,6 @@
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none"></textarea>
             </div>
 
-            {{-- Image Upload --}}
             <div class="mb-6">
                 <label class="block mb-2 text-lg font-semibold text-gray-700">Image (Optional)</label>
                 <input type="file"
@@ -50,7 +47,6 @@
                     accept="image/*"
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none">
                 
-                {{-- Image Preview --}}
                 <div class="mt-4">
                     <img id="previewImage"
                         src="#"
@@ -74,7 +70,6 @@
         const imageInput = document.getElementById("imageInput");
         const previewImage = document.getElementById("previewImage");
 
-        // ✅ Live preview when image is selected
         imageInput.addEventListener("change", function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -89,7 +84,6 @@
             }
         });
 
-        // ✅ Confirmation dialog
         if (saveForm) {
             saveForm.addEventListener("submit", function(e) {
                 e.preventDefault();
