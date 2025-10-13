@@ -13,6 +13,9 @@
             <div class="bg-white p-6 rounded-lg shadow mb-4">
                 <h2 class="text-xl font-semibold">{{ $review->title }}</h2>
                 <p class="text-gray-600">{{ $review->content }}</p>
+                @if($review->image_path)
+                    <img src="{{ asset($review->image_path) }}" alt="Review Image" class="mt-4 w-48 h-48 object-cover rounded">
+                @endif
                 <p class="text-sm text-gray-400 mt-2">
                     Posted by {{ $review->user->name ?? 'Anonymous' }} on {{ $review->created_at->format('M d, Y') }}
                 </p>
