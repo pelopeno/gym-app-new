@@ -2,7 +2,6 @@
     <div class="max-w-4xl mx-auto mt-10">
         <h1 class="text-3xl font-bold mb-6">User Reviews</h1>
 
-        <!-- Success message -->
         @if(session('success'))
             <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
                 {{ session('success') }}
