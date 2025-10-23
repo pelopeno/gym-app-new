@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use App\LogsActivity;
-
+use Intervention\Image\ImageManager;
 
 class ReviewController extends Controller
 {
@@ -31,12 +31,17 @@ class ReviewController extends Controller
             'content' => 'required|string|max:255|min:10',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+        $imagePath = null;
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('images/reviews'), $filename);
             $imagePath = 'images/reviews/' . $filename;
+
+            if(!file_exists(public_path('images/reviews'))){
+                mkdir(public_path('images/reviews'), 0755, true);
+            }
         }
         Review::create([
             'title'   => $request->title,

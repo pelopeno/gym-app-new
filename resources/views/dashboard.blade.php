@@ -22,10 +22,10 @@
                                 class="border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                 <option value="">-- All Categories --</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" 
-                                        {{ request('category') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                                <option value="{{ $category->id }}"
+                                    {{ request('category') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
                                 @endforeach
                             </select>
                             <button type="submit"
@@ -47,6 +47,13 @@
                                     {{ $a->title }}
                                 </p>
                                 <p class="text-sm text-gray-600 mb-2">{!! $a->content !!}</p>
+                                <div class="mt-2">
+                                    @if($a->image_path)
+                                    <img src="{{ asset($a->image_path) }}" alt="Announcement Image" class="mt-4 w-48 h-48 object-cover rounded">
+                                    @else
+                                    <span class="text-gray-500 italic">No Image</span>
+                                    @endif
+                                </div>
                                 <span class="text-xs text-gray-500 italic">
                                     Posted on {{ $a->created_at->format('M d, Y') }} by {{ $a->user->name }}
                                 </span>

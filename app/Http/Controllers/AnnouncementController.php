@@ -39,14 +39,29 @@ class AnnouncementController extends Controller
             'title'   => 'required|string|max:40|min:5',
             'content' => 'required|string|max:120|min:10',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/announcements'), $filename);
+            $imagePath = 'images/announcements/' . $filename;
+
+            if(!file_exists(public_path('images/announcements'))){
+                mkdir(public_path('images/announcements'), 0755, true);
+            }
+        }
         Announcement::create([
             'title'   => $request->title,
             'content' => $request->content,
             'category_id' => $request->category_id,
+            'image_path' => $imagePath ?? null,
             'user_id' => Auth::id(),
         ]);
+
         $this->logActivity('Created', 'Announcement', ['title' => $request->title]);
         return redirect()->route('admin.posts.index')->with('success', "Post '{$request->title}' added successfully!");
     }
@@ -66,19 +81,40 @@ class AnnouncementController extends Controller
             'title'   => 'required|string|max:40|min:5',
             'content' => 'required|string|max:120|min:10',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $imagePath = $post->image_path;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $imagePath = 'images/announcements/' . $filename;
+
+        if (!file_exists(public_path('images/announcements'))) {
+            mkdir(public_path('images/announcements'), 0755, true);
+        }
+
+        if($post->image_path && file_exists(public_path($post->image_path))) {
+            unlink(public_path($post->image_path));
+        }
+
+        $file->move(public_path('images/announcements'), $filename);
 
         $post->update([
             'title'   => $request->title,
             'content' => $request->content,
             'category_id' => $request->category_id,
+            'image_path' => $imagePath
         ]);
+
         $this->logActivity('Updated', 'Announcement',  [
             'id' => $post->id,
             'new_title' => $request->title
         ]);
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
+        }
     }
 
     public function deletePost($id)

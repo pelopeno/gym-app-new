@@ -48,6 +48,7 @@
                     class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-secondary focus:outline-none">
                 
                 <div class="mt-4">
+                    <label class="block mb-2 text-lg font-semibold text-gray-700">Preview Image</label>
                     <img id="previewImage"
                         src="#"
                         alt="Preview"

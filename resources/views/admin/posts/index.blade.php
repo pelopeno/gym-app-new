@@ -19,6 +19,7 @@
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Title</th>
                     <th class="p-3 text-left">Content</th>
+                    <th class="p-3 text-left">Image</th>
                     <th class="p-3 text-left">Category</th>
                     <th class="p-3 text-left">Author</th>
                     <th class="p-3 text-left">Date</th>
@@ -30,6 +31,13 @@
                 <tr class="border-b hover:bg-gray-50">
                     <td class="p-3">{{ $post->id }}</td>
                     <td class="p-3">{{ $post->title }}</td>
+                    <td class="p-3">
+                        @if($post->image_path)
+                        <img src="{{ asset($post->image_path) }}" alt="Post Image" class="w-16 h-16 object-cover rounded">
+                        @else
+                        <span class="text-gray-500 italic">No Image</span>
+                        @endif
+                    </td>
                     <td class="p-3">{{ Str::limit($post->content, 50) }}</td>
                     <td class="p-3">{{ $post->category->name ?? 'Uncategorized' }}</td>
                     <td class="p-3">{{ $post->user->name ?? 'Unknown' }}</td>
@@ -73,6 +81,7 @@
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Title</th>
                     <th class="p-3 text-left">Content</th>
+                    <th class="p-3 text-left">Image</th>
                     <th class="p-3 text-left">Category</th>
                     <th class="p-3 text-left">Author</th>
                     <th class="p-3 text-left">Deleted At</th>
@@ -85,6 +94,12 @@
                     <td class="p-3">{{ $post->id }}</td>
                     <td class="p-3">{{ $post->title }}</td>
                     <td class="p-3">{{ Str::limit($post->content, 50) }}</td>
+                    <td class="p-3">
+                        @if($post->image_path)
+                        <img src="{{ asset($post->image_path) }}" alt="Post Image" class="w-16 h-16 object-cover rounded">
+                        @else
+                        <span class="text-gray-500 italic">No Image</span>
+                        @endif
                     <td class="p-3">{{ $post->category->name ?? 'Uncategorized' }}</td>
                     <td class="p-3">{{ $post->user->name ?? 'Unknown' }}</td>
                     <td class="p-3">{{ $post->deleted_at->format('Y-m-d') }}</td>

@@ -19,7 +19,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('admin.posts.store') }}" class="space-y-6 confirm-save">
+        <form method="POST" action="{{ route('admin.posts.store') }}" class="space-y-6 confirm-save" enctype="multipart/form-data">
             @csrf
 
             <div>
@@ -50,6 +50,23 @@
                     @endforeach
                 </select>
             </div>
+ 
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Image (Optional)</label>
+                    <input type="file"
+                        id="imageInput"
+                        name="image"
+                        accept="image/*"
+                        class="w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Preview Image</label>
+                <img id="previewImage"
+                    src="#"
+                    alt="Preview"
+                    class="hidden w-48 h-48 object-cover rounded-lg border border-gray-300 shadow-sm">
+            </div>
 
             <div class="flex items-center justify-end gap-4">
                 <a href="{{ route('admin.posts.index') }}"
@@ -67,6 +84,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const saveForm = document.querySelector(".confirm-save");
+        const imageInput = document.getElementById('imageInput');
+        const previewImage = document.getElementById("previewImage");
 
         if (saveForm) {
             saveForm.addEventListener("submit", function(e) {
@@ -86,6 +105,21 @@
                 });
             });
         }
+
+        imageInput.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewImage.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.classList.add("hidden");
+            }
+        });
+        
     });
 </script>
 @endsection
