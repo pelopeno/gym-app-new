@@ -50,7 +50,7 @@ class AnnouncementController extends Controller
             $file->move(public_path('images/announcements'), $filename);
             $imagePath = 'images/announcements/' . $filename;
 
-            if(!file_exists(public_path('images/announcements'))){
+            if (!file_exists(public_path('images/announcements'))) {
                 mkdir(public_path('images/announcements'), 0755, true);
             }
         }
@@ -91,15 +91,16 @@ class AnnouncementController extends Controller
             $filename = time() . '_' . $file->getClientOriginalName();
             $imagePath = 'images/announcements/' . $filename;
 
-        if (!file_exists(public_path('images/announcements'))) {
-            mkdir(public_path('images/announcements'), 0755, true);
-        }
+            if (!file_exists(public_path('images/announcements'))) {
+                mkdir(public_path('images/announcements'), 0755, true);
+            }
 
-        if($post->image_path && file_exists(public_path($post->image_path))) {
-            unlink(public_path($post->image_path));
-        }
+            if ($post->image_path && file_exists(public_path($post->image_path))) {
+                unlink(public_path($post->image_path));
+            }
 
-        $file->move(public_path('images/announcements'), $filename);
+            $file->move(public_path('images/announcements'), $filename);
+        }
 
         $post->update([
             'title'   => $request->title,
@@ -114,7 +115,6 @@ class AnnouncementController extends Controller
         ]);
 
         return redirect()->route('admin.posts.index')->with('success', "Announcement #{$id} updated successfully!");
-        }
     }
 
     public function deletePost($id)
