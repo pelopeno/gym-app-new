@@ -62,7 +62,13 @@
                     class="w-full border-gray-300 rounded-lg shadow-sm px-4 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500">
             </div>
 
-
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Preview Image</label>
+                <img id="previewImage"
+                    src="#"
+                    alt="Preview"
+                    class="hidden w-48 h-48 object-cover rounded-lg border border-gray-300 shadow-sm">
+            </div>
 
             <div class="flex justify-end gap-3">
                 <a href="{{ route('admin.posts.index') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Cancel</a>
@@ -74,6 +80,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const saveForm = document.querySelector(".confirm-update");
+        const imageInput = document.getElementById("imageInput");
+        const previewImage = document.getElementById("previewImage");
 
         if (saveForm) {
             saveForm.addEventListener("submit", function(e) {
@@ -93,6 +101,21 @@
                 });
             });
         }
+
+        imageInput.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage.src = event.target.result;
+                    previewImage.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.classList.add("hidden");
+            }
+        });
     });
+    
 </script>
 @endsection
