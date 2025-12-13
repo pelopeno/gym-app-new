@@ -7,7 +7,7 @@ use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use App\LogsActivity;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ReviewController extends Controller
 {
@@ -47,16 +47,14 @@ class ReviewController extends Controller
         if (!file_exists($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
-        $manager = new ImageManager(new Driver());
+        $manager = new ImageManager(new Driver());  // GD driver
 
         foreach ($request->file('images') as $file) {
             $filename = time() . '_' . bin2hex(random_bytes(5)) . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
             $path = $uploadDir . '/' . $filename;
 
             $image = $manager->read($file->getPathname());
-
-            $image->scaleDown(width: 600, height: 600); 
-
+            $image->scaleDown(width: 600, height: 600);
             $image->save($path, quality: 85);
 
             $review->images()->create([
@@ -95,5 +93,57 @@ class ReviewController extends Controller
 
         $this->logActivity('Rejected', 'Review', ['id' => $id]);
         return redirect()->route('admin.reviews.index')->with('success', 'Review rejected successfully.');
+    }
+
+    public function myReviews()
+    {
+        $reviews = Review::with('images')
+            ->where('user_id', Auth::id())
+            ->whereNull('deleted_at')
+            ->latest()
+            ->paginate(5);
+
+        $archivedReviews = Review::with('images')
+            ->where('user_id', Auth::id())
+            ->onlyTrashed()
+            ->latest()
+            ->paginate(5);
+
+        return view('user.myreviews', compact('reviews', 'archivedReviews'));
+    }
+
+    public function archive($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->delete();
+
+        $this->logActivity('Archived', 'Review', ['id' => $id]);
+        return redirect()->route('user.myreviews')->with('success', 'Review archived successfully.');
+    }
+
+    public function restore($id)
+    {
+        $review = Review::onlyTrashed()->findOrFail($id);
+        $review->restore(); 
+
+        $this->logActivity('Restored', 'Review', ['id' => $id]);
+        return redirect()->route('user.myreviews')->with('success', 'Review restored successfully.');
+    }
+
+    public function forceDelete($id)
+    {
+        $review = Review::withTrashed()->where('user_id', Auth::id())->findOrFail($id);
+
+        foreach ($review->images as $image) {
+            $imagePath = public_path($image->path);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        $review->forceDelete();
+
+        $this->logActivity('Permanently Deleted', 'Review', ['id' => $id]);
+        return redirect()->route('user.myreviews')->with('success', 'Review permanently deleted successfully.');
     }
 }

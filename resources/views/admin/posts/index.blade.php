@@ -18,8 +18,8 @@
                 <tr>
                     <th class="p-3 text-left">ID</th>
                     <th class="p-3 text-left">Title</th>
-                    <th class="p-3 text-left">Content</th>
                     <th class="p-3 text-left">Image</th>
+                    <th class="p-3 text-left">Content</th>
                     <th class="p-3 text-left">Category</th>
                     <th class="p-3 text-left">Author</th>
                     <th class="p-3 text-left">Date</th>

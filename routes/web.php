@@ -44,6 +44,14 @@ Route::middleware([
     Route::get('/users/create', [ReviewController::class, 'create'])->name('user.create');
 
     Route::post('/users/store', [ReviewController::class, 'store'])->name('user.store');
+
+    Route::get('/users/my-reviews', [ReviewController::class, 'myReviews'])->name('user.myreviews');
+
+    Route::post('/user/archive/{id}', [ReviewController::class, 'archive'])->name('user.archive');
+
+    Route::post('/user/restore/{id}', [ReviewController::class, 'restore'])->name('user.restore');
+
+    Route::delete('/user/{id}', [ReviewController::class, 'destroy'])->name('user.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])
