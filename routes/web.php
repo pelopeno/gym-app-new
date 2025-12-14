@@ -51,7 +51,7 @@ Route::middleware([
 
     Route::post('/user/restore/{id}', [ReviewController::class, 'restore'])->name('user.restore');
 
-    Route::delete('/user/{id}', [ReviewController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/user/{id}', [ReviewController::class, 'forceDelete'])->name('user.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])

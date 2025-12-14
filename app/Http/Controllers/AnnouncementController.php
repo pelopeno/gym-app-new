@@ -79,7 +79,7 @@ class AnnouncementController extends Controller
 
         $request->validate([
             'title'   => 'required|string|max:40|min:5',
-            'content' => 'required|string|max:120|min:10',
+            'content' => 'required|string|max:200|min:10',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
